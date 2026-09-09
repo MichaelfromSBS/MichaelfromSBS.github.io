@@ -1,15 +1,11 @@
 import React from 'react';
 import { ArrowRight, Mail, MapPin, Sparkles, Award } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
-import { NeuralBackground } from './NeuralBackground';
 import { personalInfo, honorsData } from '../data/portfolioData';
 
 export const Hero: React.FC = () => {
   return (
     <section id="about" className="pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden relative">
-      {/* Interactive Self-Attention Neural Field Canvas */}
-      <NeuralBackground />
-
       {/* Ambient gradient glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-red-500/10 dark:bg-red-600/15 rounded-full blur-3xl -z-10 pointer-events-none" />
       <div className="absolute top-1/3 right-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-600/15 rounded-full blur-3xl -z-10 pointer-events-none" />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NeuralBackground } from './components/NeuralBackground';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
@@ -38,9 +39,12 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 selection:bg-red-500/20 selection:text-red-600 dark:selection:bg-red-500/30 dark:selection:text-red-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 selection:bg-red-500/20 selection:text-red-600 dark:selection:bg-red-500/30 dark:selection:text-red-300 relative">
+      {/* Universal Interactive Neural Background */}
+      <NeuralBackground />
+
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Skills />
         <Research />

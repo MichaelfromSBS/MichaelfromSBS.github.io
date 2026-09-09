@@ -22,7 +22,6 @@ interface PulseWave {
 
 export const NeuralBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const nodesRef = useRef<Node[]>([]);
   const pulsesRef = useRef<PulseWave[]>([]);
@@ -32,23 +31,22 @@ export const NeuralBackground: React.FC = () => {
     isInside: false,
   });
   const animFrameId = useRef<number | null>(null);
-  const isVisibleRef = useRef<boolean>(true);
 
   const getIsDark = () => document.documentElement.classList.contains('dark');
 
   const initNodes = useCallback((width: number, height: number) => {
-    // Subtle density: fewer nodes so the background remains spacious and elegant
-    const count = Math.min(Math.floor((width * height) / 18000), 50);
+    // Richer density for full-screen universal background
+    const count = Math.min(Math.floor((width * height) / 14000), 75);
     const nodes: Node[] = [];
 
     for (let i = 0; i < count; i++) {
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        baseRadius: Math.random() * 1.2 + 1.6,
-        radius: 2.0,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        baseRadius: Math.random() * 1.5 + 2.2, // Clearly visible 2.2 - 3.7px
+        radius: 2.5,
         energy: 0,
         head: Math.floor(Math.random() * 3),
       });
@@ -58,33 +56,30 @@ export const NeuralBackground: React.FC = () => {
   }, []);
 
   const triggerActivationPulse = useCallback((x?: number, y?: number) => {
-    if (!canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const spawnX = x !== undefined ? x : rect.width / 2;
-    const spawnY = y !== undefined ? y : rect.height / 2;
+    const spawnX = x !== undefined ? x : window.innerWidth / 2;
+    const spawnY = y !== undefined ? y : window.innerHeight / 2;
 
     pulsesRef.current.push({
       x: spawnX,
       y: spawnY,
       radius: 0,
-      maxRadius: Math.max(rect.width, rect.height) * 0.7,
-      speed: 4.5,
-      alpha: 0.5,
+      maxRadius: Math.max(window.innerWidth, window.innerHeight) * 0.75,
+      speed: 5.5,
+      alpha: 0.7,
     });
   }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const handleResize = () => {
       const dpr = window.devicePixelRatio || 1;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -98,23 +93,13 @@ export const NeuralBackground: React.FC = () => {
     };
 
     handleResize();
-    const resizeObserver = new ResizeObserver(handleResize);
-    resizeObserver.observe(container);
+    window.addEventListener('resize', handleResize);
 
-    // Pause when offscreen to ensure 0% CPU consumption
-    const intersectionObserver = new IntersectionObserver(
-      ([entry]) => {
-        isVisibleRef.current = entry.isIntersecting;
-      },
-      { threshold: 0.05 }
-    );
-    intersectionObserver.observe(container);
-
+    // Global mouse and click listeners across the whole webpage
     const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
       mouseRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+        x: e.clientX,
+        y: e.clientY,
         isInside: true,
       };
     };
@@ -124,16 +109,14 @@ export const NeuralBackground: React.FC = () => {
     };
 
     const onClick = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      triggerActivationPulse(e.clientX - rect.left, e.clientY - rect.top);
+      triggerActivationPulse(e.clientX, e.clientY);
     };
 
     const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
-        const rect = canvas.getBoundingClientRect();
         mouseRef.current = {
-          x: e.touches[0].clientX - rect.left,
-          y: e.touches[0].clientY - rect.top,
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
           isInside: true,
         };
       }
@@ -144,166 +127,180 @@ export const NeuralBackground: React.FC = () => {
     };
 
     window.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('mouseleave', onMouseLeave);
-    canvas.addEventListener('click', onClick);
-    canvas.addEventListener('touchmove', onTouchMove, { passive: true });
-    canvas.addEventListener('touchend', onTouchEnd);
+    document.addEventListener('mouseleave', onMouseLeave);
+    window.addEventListener('click', onClick);
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
 
-    // Color palettes: Muted, low-contrast, ambient
-    // Dark mode: very soft slate with hints of crimson and indigo
+    // Well-balanced colors: clearly noticeable, vibrant yet non-distracting
+    // Dark Mode: Crimson, Indigo, Cyan
     const headColorsDark = [
-      'rgba(244, 63, 94, ',   // Soft Crimson
-      'rgba(165, 180, 252, ', // Soft Indigo
-      'rgba(148, 163, 184, ', // Soft Slate
+      'rgba(225, 29, 72, ',   // CMU Crimson
+      'rgba(129, 140, 248, ', // Indigo
+      'rgba(56, 189, 248, ',  // Cyan
     ];
 
-    // Light mode: very faint slate with subtle CMU red tint
+    // Light Mode: CMU Red, Indigo, Slate
     const headColorsLight = [
       'rgba(196, 18, 48, ',   // CMU Red
-      'rgba(99, 102, 241, ',  // Indigo
-      'rgba(100, 116, 139, ', // Slate
+      'rgba(79, 70, 229, ',   // Deep Indigo
+      'rgba(71, 85, 105, ',   // Deep Slate
     ];
 
     const render = () => {
-      if (isVisibleRef.current) {
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-        const isDark = getIsDark();
-        const headColors = isDark ? headColorsDark : headColorsLight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isDark = getIsDark();
+      const headColors = isDark ? headColorsDark : headColorsLight;
 
-        ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, width, height);
 
-        const nodes = nodesRef.current;
-        const mouse = mouseRef.current;
-        const pulses = pulsesRef.current;
+      const nodes = nodesRef.current;
+      const mouse = mouseRef.current;
+      const pulses = pulsesRef.current;
 
-        // 1. Subtle Pulses
-        for (let p = pulses.length - 1; p >= 0; p--) {
-          const pulse = pulses[p];
-          pulse.radius += pulse.speed;
-          pulse.alpha = Math.max(0, 0.45 * (1 - pulse.radius / pulse.maxRadius));
+      // 1. Activation Pulses (Ripples)
+      for (let p = pulses.length - 1; p >= 0; p--) {
+        const pulse = pulses[p];
+        pulse.radius += pulse.speed;
+        pulse.alpha = Math.max(0, 0.65 * (1 - pulse.radius / pulse.maxRadius));
 
-          if (pulse.alpha <= 0.005) {
-            pulses.splice(p, 1);
-            continue;
-          }
-
-          ctx.beginPath();
-          ctx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
-          ctx.strokeStyle = isDark
-            ? `rgba(244, 63, 94, ${pulse.alpha * 0.25})`
-            : `rgba(196, 18, 48, ${pulse.alpha * 0.18})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-
-          // Excite nodes slightly as pulse passes
-          for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
-            const dx = node.x - pulse.x;
-            const dy = node.y - pulse.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (Math.abs(dist - pulse.radius) < 20) {
-              node.energy = Math.min(0.8, node.energy + 0.2);
-            }
-          }
+        if (pulse.alpha <= 0.01) {
+          pulses.splice(p, 1);
+          continue;
         }
 
-        // 2. Update Nodes
+        ctx.beginPath();
+        ctx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = isDark
+          ? `rgba(225, 29, 72, ${pulse.alpha * 0.45})`
+          : `rgba(196, 18, 48, ${pulse.alpha * 0.35})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Excite nodes as the ripple sweeps over them
         for (let i = 0; i < nodes.length; i++) {
           const node = nodes[i];
+          const dx = node.x - pulse.x;
+          const dy = node.y - pulse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
 
-          node.x += node.vx;
-          node.y += node.vy;
-
-          if (node.x <= 0 || node.x >= width) node.vx *= -1;
-          if (node.y <= 0 || node.y >= height) node.vy *= -1;
-
-          // Gentle Query attraction when mouse moves nearby
-          if (mouse.isInside) {
-            const dx = mouse.x - node.x;
-            const dy = mouse.y - node.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 150) {
-              const proximity = 1 - dist / 150;
-              node.energy = Math.max(node.energy, proximity * 0.6);
-              node.x += (dx / dist) * 0.2 * proximity;
-              node.y += (dy / dist) * 0.2 * proximity;
-            }
+          if (Math.abs(dist - pulse.radius) < 25) {
+            node.energy = Math.min(1.0, node.energy + 0.35);
           }
-
-          node.energy = Math.max(0, node.energy - 0.012);
-          node.radius = node.baseRadius + node.energy * 1.5;
         }
+      }
 
-        // 3. Draw Self-Attention Filaments (Pairs)
-        const maxDist = 135;
-        for (let i = 0; i < nodes.length; i++) {
-          const nodeA = nodes[i];
+      // 2. Update Nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
 
-          // Soft filament to cursor Query
-          if (mouse.isInside) {
-            const dx = mouse.x - nodeA.x;
-            const dy = mouse.y - nodeA.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+        node.x += node.vx;
+        node.y += node.vy;
 
-            if (dist < 140) {
-              const weight = 1 - dist / 140;
-              ctx.beginPath();
-              ctx.moveTo(nodeA.x, nodeA.y);
-              ctx.lineTo(mouse.x, mouse.y);
-              ctx.strokeStyle = isDark
-                ? `rgba(244, 63, 94, ${weight * 0.16})`
-                : `rgba(196, 18, 48, ${weight * 0.12})`;
-              ctx.lineWidth = 0.75 + weight * 0.5;
-              ctx.stroke();
-            }
-          }
+        if (node.x <= 0 || node.x >= width) node.vx *= -1;
+        if (node.y <= 0 || node.y >= height) node.vy *= -1;
 
-          // Inter-node attention connections
-          for (let j = i + 1; j < nodes.length; j++) {
-            const nodeB = nodes[j];
+        // Mouse Query attraction
+        if (mouse.isInside) {
+          const dx = mouse.x - node.x;
+          const dy = mouse.y - node.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
 
-            const dx = nodeA.x - nodeB.x;
-            const dy = nodeA.y - nodeB.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < maxDist) {
-              // Soft Gaussian attention weight
-              const sigma = maxDist * 0.6;
-              const weight = Math.exp(-(dist * dist) / (2 * sigma * sigma));
-              const combinedEnergy = (nodeA.energy + nodeB.energy) * 0.5;
-
-              // Very muted, translucent opacity
-              const alpha = isDark
-                ? (weight * 0.08 + combinedEnergy * 0.12)
-                : (weight * 0.05 + combinedEnergy * 0.08);
-
-              const colorBase = headColors[nodeA.head % headColors.length];
-
-              ctx.beginPath();
-              ctx.moveTo(nodeA.x, nodeA.y);
-              ctx.lineTo(nodeB.x, nodeB.y);
-              ctx.strokeStyle = `${colorBase}${alpha})`;
-              ctx.lineWidth = 0.6 + weight * 0.6;
-              ctx.stroke();
-            }
+          if (dist < 180) {
+            const proximity = 1 - dist / 180;
+            node.energy = Math.max(node.energy, proximity * 0.85);
+            node.x += (dx / dist) * 0.3 * proximity;
+            node.y += (dy / dist) * 0.3 * proximity;
           }
         }
 
-        // 4. Draw Nodes
-        for (let i = 0; i < nodes.length; i++) {
-          const node = nodes[i];
-          const colorBase = headColors[node.head % headColors.length];
+        node.energy = Math.max(0, node.energy - 0.015);
+        node.radius = node.baseRadius + node.energy * 2.0;
+      }
 
-          const nodeAlpha = isDark
-            ? (0.18 + node.energy * 0.35)
-            : (0.14 + node.energy * 0.25);
+      // 3. Draw Self-Attention Filaments
+      const maxDist = 145;
+      for (let i = 0; i < nodes.length; i++) {
+        const nodeA = nodes[i];
 
+        // Connection to Mouse Query Reticle
+        if (mouse.isInside) {
+          const dx = mouse.x - nodeA.x;
+          const dy = mouse.y - nodeA.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 160) {
+            const weight = 1 - dist / 160;
+            ctx.beginPath();
+            ctx.moveTo(nodeA.x, nodeA.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = isDark
+              ? `rgba(225, 29, 72, ${weight * 0.45})`
+              : `rgba(196, 18, 48, ${weight * 0.35})`;
+            ctx.lineWidth = 1 + weight * 0.8;
+            ctx.stroke();
+          }
+        }
+
+        // Inter-node connections
+        for (let j = i + 1; j < nodes.length; j++) {
+          const nodeB = nodes[j];
+
+          const dx = nodeA.x - nodeB.x;
+          const dy = nodeA.y - nodeB.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDist) {
+            const sigma = maxDist * 0.55;
+            const weight = Math.exp(-(dist * dist) / (2 * sigma * sigma));
+            const combinedEnergy = (nodeA.energy + nodeB.energy) * 0.5;
+
+            // Clearly visible opacity
+            const alpha = isDark
+              ? (weight * 0.22 + combinedEnergy * 0.35)
+              : (weight * 0.18 + combinedEnergy * 0.25);
+
+            const colorBase = headColors[nodeA.head % headColors.length];
+
+            ctx.beginPath();
+            ctx.moveTo(nodeA.x, nodeA.y);
+            ctx.lineTo(nodeB.x, nodeB.y);
+            ctx.strokeStyle = `${colorBase}${Math.min(0.75, alpha)})`;
+            ctx.lineWidth = 0.9 + weight * 0.9;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 4. Draw Nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        const colorBase = headColors[node.head % headColors.length];
+
+        const nodeAlpha = isDark
+          ? (0.45 + node.energy * 0.45)
+          : (0.40 + node.energy * 0.40);
+
+        // Subtle glow halo
+        if (node.energy > 0.15) {
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `${colorBase}${nodeAlpha})`;
+          ctx.arc(node.x, node.y, node.radius * 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = `${colorBase}${node.energy * 0.22})`;
+          ctx.fill();
+        }
+
+        // Main node circle
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `${colorBase}${nodeAlpha})`;
+        ctx.fill();
+
+        // White center spark on active nodes
+        if (node.energy > 0.35) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
           ctx.fill();
         }
       }
@@ -315,29 +312,22 @@ export const NeuralBackground: React.FC = () => {
 
     return () => {
       if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
-      resizeObserver.disconnect();
-      intersectionObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', onMouseMove);
-      canvas.removeEventListener('mouseleave', onMouseLeave);
-      canvas.removeEventListener('click', onClick);
-      canvas.removeEventListener('touchmove', onTouchMove);
-      canvas.removeEventListener('touchend', onTouchEnd);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      window.removeEventListener('click', onClick);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
     };
   }, [initNodes, triggerActivationPulse]);
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 overflow-hidden pointer-events-auto select-none"
-    >
-      {/* Ambient Canvas */}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none">
+      {/* Universal Fullscreen Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 cursor-default"
+        className="w-full h-full"
       />
-
-      {/* Smooth gradient fade into the page background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-50 dark:to-slate-950 pointer-events-none opacity-90" />
     </div>
   );
 };
