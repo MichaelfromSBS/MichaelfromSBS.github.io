@@ -35,18 +35,18 @@ export const NeuralBackground: React.FC = () => {
   const getIsDark = () => document.documentElement.classList.contains('dark');
 
   const initNodes = useCallback((width: number, height: number) => {
-    // Richer density for full-screen universal background
-    const count = Math.min(Math.floor((width * height) / 14000), 75);
+    // Subtle, ambient density that doesn't distract from foreground content
+    const count = Math.min(Math.floor((width * height) / 22000), 48);
     const nodes: Node[] = [];
 
     for (let i = 0; i < count; i++) {
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
-        baseRadius: Math.random() * 1.5 + 2.2, // Clearly visible 2.2 - 3.7px
-        radius: 2.5,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        baseRadius: Math.random() * 0.8 + 1.2, // Delicate 1.2 - 2.0px points
+        radius: 1.6,
         energy: 0,
         head: Math.floor(Math.random() * 3),
       });
@@ -63,9 +63,9 @@ export const NeuralBackground: React.FC = () => {
       x: spawnX,
       y: spawnY,
       radius: 0,
-      maxRadius: Math.max(window.innerWidth, window.innerHeight) * 0.75,
-      speed: 5.5,
-      alpha: 0.7,
+      maxRadius: Math.max(window.innerWidth, window.innerHeight) * 0.7,
+      speed: 3.8,
+      alpha: 0.35,
     });
   }, []);
 
@@ -173,9 +173,9 @@ export const NeuralBackground: React.FC = () => {
         ctx.beginPath();
         ctx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
         ctx.strokeStyle = isDark
-          ? `rgba(225, 29, 72, ${pulse.alpha * 0.45})`
-          : `rgba(196, 18, 48, ${pulse.alpha * 0.35})`;
-        ctx.lineWidth = 1.5;
+          ? `rgba(225, 29, 72, ${pulse.alpha * 0.16})`
+          : `rgba(196, 18, 48, ${pulse.alpha * 0.12})`;
+        ctx.lineWidth = 1.0;
         ctx.stroke();
 
         // Excite nodes as the ripple sweeps over them
@@ -236,9 +236,9 @@ export const NeuralBackground: React.FC = () => {
             ctx.moveTo(nodeA.x, nodeA.y);
             ctx.lineTo(mouse.x, mouse.y);
             ctx.strokeStyle = isDark
-              ? `rgba(225, 29, 72, ${weight * 0.45})`
-              : `rgba(196, 18, 48, ${weight * 0.35})`;
-            ctx.lineWidth = 1 + weight * 0.8;
+              ? `rgba(225, 29, 72, ${weight * 0.16})`
+              : `rgba(196, 18, 48, ${weight * 0.12})`;
+            ctx.lineWidth = 0.6 + weight * 0.4;
             ctx.stroke();
           }
         }
@@ -256,18 +256,18 @@ export const NeuralBackground: React.FC = () => {
             const weight = Math.exp(-(dist * dist) / (2 * sigma * sigma));
             const combinedEnergy = (nodeA.energy + nodeB.energy) * 0.5;
 
-            // Clearly visible opacity
+            // Soft, ambient opacity that stays gracefully in the background
             const alpha = isDark
-              ? (weight * 0.22 + combinedEnergy * 0.35)
-              : (weight * 0.18 + combinedEnergy * 0.25);
+              ? (weight * 0.08 + combinedEnergy * 0.14)
+              : (weight * 0.06 + combinedEnergy * 0.10);
 
             const colorBase = headColors[nodeA.head % headColors.length];
 
             ctx.beginPath();
             ctx.moveTo(nodeA.x, nodeA.y);
             ctx.lineTo(nodeB.x, nodeB.y);
-            ctx.strokeStyle = `${colorBase}${Math.min(0.75, alpha)})`;
-            ctx.lineWidth = 0.9 + weight * 0.9;
+            ctx.strokeStyle = `${colorBase}${Math.min(0.32, alpha)})`;
+            ctx.lineWidth = 0.6 + weight * 0.4;
             ctx.stroke();
           }
         }
@@ -279,14 +279,14 @@ export const NeuralBackground: React.FC = () => {
         const colorBase = headColors[node.head % headColors.length];
 
         const nodeAlpha = isDark
-          ? (0.45 + node.energy * 0.45)
-          : (0.40 + node.energy * 0.40);
+          ? (0.22 + node.energy * 0.25)
+          : (0.18 + node.energy * 0.20);
 
         // Subtle glow halo
-        if (node.energy > 0.15) {
+        if (node.energy > 0.25) {
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius * 2.2, 0, Math.PI * 2);
-          ctx.fillStyle = `${colorBase}${node.energy * 0.22})`;
+          ctx.arc(node.x, node.y, node.radius * 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = `${colorBase}${node.energy * 0.10})`;
           ctx.fill();
         }
 
@@ -297,7 +297,7 @@ export const NeuralBackground: React.FC = () => {
         ctx.fill();
 
         // White center spark on active nodes
-        if (node.energy > 0.35) {
+        if (node.energy > 0.45) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius * 0.4, 0, Math.PI * 2);
           ctx.fillStyle = '#ffffff';
@@ -322,7 +322,7 @@ export const NeuralBackground: React.FC = () => {
   }, [initNodes, triggerActivationPulse]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none opacity-80 dark:opacity-75">
       {/* Universal Fullscreen Canvas */}
       <canvas
         ref={canvasRef}
