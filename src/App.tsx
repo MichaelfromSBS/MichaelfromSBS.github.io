@@ -6,6 +6,7 @@ import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
 import { Research } from './components/Research';
 import { Projects } from './components/Projects';
+import { ProjectDetail } from './components/ProjectDetail';
 import { Experience } from './components/Experience';
 import { Honors } from './components/Honors';
 import { ResumeSection } from './components/ResumeSection';
@@ -15,16 +16,8 @@ import { Footer } from './components/Footer';
 const validTabs: NavTab[] = ['about', 'projects', 'research', 'experience', 'honors', 'resume', 'contact'];
 
 export const App: React.FC = () => {
-  // Read initial tab from URL hash if available
-  const [activeTab, setActiveTab] = useState<NavTab>(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.replace('#', '').toLowerCase() as NavTab;
-      if (validTabs.includes(hash)) {
-        return hash;
-      }
-    }
-    return 'about';
-  });
+  const [activeTab, setActiveTab] = useState<NavTab>('about');
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
@@ -37,17 +30,29 @@ export const App: React.FC = () => {
     return false;
   });
 
-  // Sync activeTab with browser URL hash & history
+  // Parse and sync browser hash on load and when hash changes
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '').toLowerCase() as NavTab;
-      if (validTabs.includes(hash)) {
-        setActiveTab(hash);
+    const parseHash = () => {
+      const hash = window.location.hash.replace('#', '').trim();
+      if (!hash) {
+        setActiveTab('about');
+        setSelectedProjectId(null);
+        return;
+      }
+
+      if (hash.startsWith('project/')) {
+        const pId = hash.replace('project/', '');
+        setActiveTab('projects');
+        setSelectedProjectId(pId);
+      } else if (validTabs.includes(hash as NavTab)) {
+        setActiveTab(hash as NavTab);
+        setSelectedProjectId(null);
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    parseHash();
+    window.addEventListener('hashchange', parseHash);
+    return () => window.removeEventListener('hashchange', parseHash);
   }, []);
 
   useEffect(() => {
@@ -67,7 +72,21 @@ export const App: React.FC = () => {
 
   const handleSelectTab = (tab: NavTab) => {
     setActiveTab(tab);
+    setSelectedProjectId(null);
     window.location.hash = tab;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectProject = (projectId: string) => {
+    setSelectedProjectId(projectId);
+    setActiveTab('projects');
+    window.location.hash = `project/${projectId}`;
+  };
+
+  const handleBackToProjects = () => {
+    setSelectedProjectId(null);
+    setActiveTab('projects');
+    window.location.hash = 'projects';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -81,7 +100,16 @@ export const App: React.FC = () => {
           </>
         );
       case 'projects':
-        return <Projects />;
+        if (selectedProjectId) {
+          return (
+            <ProjectDetail
+              projectId={selectedProjectId}
+              onBack={handleBackToProjects}
+              onSelectProject={handleSelectProject}
+            />
+          );
+        }
+        return <Projects onSelectProject={handleSelectProject} />;
       case 'research':
         return <Research />;
       case 'experience':
@@ -102,6 +130,11 @@ export const App: React.FC = () => {
     }
   };
 
+  // Determine transition key for smooth motion
+  const motionKey = activeTab === 'projects' && selectedProjectId
+    ? `project-${selectedProjectId}`
+    : activeTab;
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 selection:bg-red-500/20 selection:text-red-600 dark:selection:bg-red-500/30 dark:selection:text-red-300 relative flex flex-col justify-between">
       {/* Universal Interactive Neural Vector Background */}
@@ -115,15 +148,15 @@ export const App: React.FC = () => {
         toggleDarkMode={toggleDarkMode}
       />
 
-      {/* Main Multi-Page Tabbed View with Smooth Page Transitions */}
+      {/* Main Tabbed / Sub-page View with Smooth Transitions */}
       <main className="relative z-10 flex-1">
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
+            key={motionKey}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
           >
             {renderActivePage()}
           </motion.div>
