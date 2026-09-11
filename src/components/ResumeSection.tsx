@@ -8,8 +8,8 @@ export const ResumeSection: React.FC = () => {
   };
 
   return (
-    <section id="resume" className="py-20">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="resume" className="pt-24 pb-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div>
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs font-semibold uppercase tracking-wider mb-3">

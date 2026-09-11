@@ -4,8 +4,7 @@ import { honorsData } from '../data/portfolioData';
 
 export const Honors: React.FC = () => {
   return (
-    <section id="honors" className="py-16 bg-slate-100/50 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="honors" className="pt-24 pb-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-semibold uppercase tracking-wider mb-3">
             <Trophy className="w-3.5 h-3.5" />
@@ -60,7 +59,6 @@ export const Honors: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
     </section>
   );
 };
