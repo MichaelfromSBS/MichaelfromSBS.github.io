@@ -81,7 +81,8 @@ export const researchProjects: ResearchProject[] = [
       "Validated interaction flow and system efficacy by designing and conducting structured user studies with autistic software engineers."
     ],
     tags: ["MCP", "JupyterLab", "Python", "HCI", "Neurodiversity", "User Studies"],
-    codeUrl: "https://github.com/MichaelfromSBS",
+    posterUrl: "./Implementation Poster Design_v4.pdf",
+    posterPreviewUrl: "./sura-poster.jpg",
   }
 ];
 
@@ -99,7 +100,8 @@ export const projectsData: ProjectItem[] = [
       "Conducted structured qualitative and quantitative user studies with autistic software engineers to validate usability."
     ],
     techStack: ["Python", "MCP", "JupyterLab", "TypeScript", "FastAPI"],
-    githubUrl: "https://github.com/MichaelfromSBS",
+    posterUrl: "./Implementation Poster Design_v4.pdf",
+    posterPreviewUrl: "./sura-poster.jpg",
   },
   {
     id: "viditas",
@@ -113,7 +115,7 @@ export const projectsData: ProjectItem[] = [
       "Enhanced detection precision across benchmark datasets by building end-to-end pipelines processing parallel audio and video streams for real-time anomaly detection."
     ],
     techStack: ["PyTorch", "FastAPI", "Python", "Computer Vision", "Audio DSP", "Docker"],
-    githubUrl: "https://github.com/MichaelfromSBS",
+    githubUrl: "https://github.com/MichaelfromSBS/viditas",
   },
   {
     id: "scotty-tasks",
@@ -127,7 +129,7 @@ export const projectsData: ProjectItem[] = [
       "Decreased data sync latency to under 50ms by implementing real-time NoSQL synchronization and user authentication via Google Firebase."
     ],
     techStack: ["React Native", "Firebase", "NoSQL", "TypeScript", "Mobile UI"],
-    githubUrl: "https://github.com/MichaelfromSBS",
+    githubUrl: "https://github.com/scottylabs-labrador/CMU-ScottyTasks",
   },
   {
     id: "c0-compiler",

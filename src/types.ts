@@ -46,6 +46,8 @@ export interface ResearchProject {
   paperUrl?: string;
   codeUrl?: string;
   demoUrl?: string;
+  posterUrl?: string;
+  posterPreviewUrl?: string;
 }
 
 export interface ProjectItem {
@@ -61,6 +63,8 @@ export interface ProjectItem {
   liveUrl?: string;
   demoUrl?: string;
   paperUrl?: string;
+  posterUrl?: string;
+  posterPreviewUrl?: string;
 }
 
 export interface HonorItem {
