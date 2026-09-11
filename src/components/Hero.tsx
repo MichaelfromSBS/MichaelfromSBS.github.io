@@ -41,9 +41,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </div>
 
           {/* Small status indicator pill */}
-          <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Open to Summer 2026 Internships</span>
+          <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium text-center max-w-[230px] sm:max-w-[250px] mx-auto leading-snug">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+            <span>Open to Summer 2027 internships in software development, ML or data analysis roles</span>
           </div>
         </div>
 
