@@ -67,11 +67,12 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <span className="font-semibold text-red-600 dark:text-red-400">Carnegie Mellon University</span>.
           </p>
 
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+            Welcome to my corner of the web! I’m deeply passionate about engineering <span className="font-medium text-slate-800 dark:text-slate-200">reliable, rigorous systems</span> seamlessly integrated with <span className="font-medium text-slate-800 dark:text-slate-200">advanced machine learning models and intelligent AI components</span>. I love bridging the gap between high-performance systems and modern AI—crafting architectures that aren't just capable, but dependable, fast, and provably sound in real-world environments.
+          </p>
+
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-            Welcome to my website! I'm interested in building robust, intelligent software at the crossroads of{' '}
-            <span className="font-medium text-slate-800 dark:text-slate-200">Human-AI Interaction</span>,{' '}
-            <span className="font-medium text-slate-800 dark:text-slate-200">Multimodal Systems</span>, and{' '}
-            <span className="font-medium text-slate-800 dark:text-slate-200">Type-Safe Compilers</span>. When I'm not coding or doing research at CMU, I enjoy robotics, competitive programming, and open-source tooling.
+            When I'm away from my keyboard, you can usually find me playing table tennis, on the badminton court, or unwinding with video games.
           </p>
 
           {/* Quick Context Pills */}
