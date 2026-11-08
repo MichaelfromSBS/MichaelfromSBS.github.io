@@ -25,15 +25,16 @@ export const educationData: EducationItem[] = [
     concentration: "Concentration in Machine Learning",
     period: "Expected May 2029",
     coursework: [
-      { code: "15-151", name: "Mathematical Foundations for Computer Science" },
+      { code: "15-213", name: "Computer Systems" },
       { code: "15-251", name: "Great Theoretical Ideas in Computer Science" },
       { code: "15-150", name: "Functional Programming" },
       { code: "15-122", name: "Imperative Computation" },
+      { code: "15-151", name: "Mathematical Foundations for Computer Science" },
       { code: "21-241", name: "Matrices and Linear Transformations" },
       { code: "36-225", name: "Probability Theory" },
       { code: "16-180", name: "Concepts of Robotics" },
     ],
-    honors: ["CMU ScottyLab Labrador Member", "Tepper Hackathon 3rd Place"]
+    honors: ["CMU NOVA AI Hackathon Top 5 (People's Choice)", "Tepper Hackathon 3rd Place", "CMU ScottyLab Project Team Lead"]
   },
   {
     institution: "The Stony Brook School",
@@ -48,17 +49,17 @@ export const skillGroups: SkillGroup[] = [
   {
     category: "Programming Languages",
     iconName: "Code2",
-    items: ["Python", "C", "C++", "Java", "SML", "C0", "JavaScript", "Node.js", "LaTeX"]
+    items: ["Python", "C", "C++", "TypeScript", "JavaScript", "SQL", "Java", "SML", "Bash", "x86-64 Assembly"]
   },
   {
     category: "AI, ML & Data Science",
     iconName: "BrainCircuit",
-    items: ["PyTorch", "TensorFlow", "Scikit-Learn", "FastAPI", "Pandas", "NumPy", "RAG", "MCP (Model Context Protocol)", "Jupyter"]
+    items: ["PyTorch", "TensorFlow", "CUDA", "Scikit-Learn", "NumPy", "Pandas", "OpenCV", "RAG", "LLM Agents", "MCP (Model Context Protocol)"]
   },
   {
-    category: "Systems & Infrastructure",
+    category: "Systems & Backend",
     iconName: "Cpu",
-    items: ["Docker", "Git", "Google Firebase", "React Native", "Linux/Unix", "NoSQL Synchronization"]
+    items: ["FastAPI", "React", "React Native", "Node.js", "SQLite", "Firebase", "Docker", "Git", "Linux", "GDB"]
   },
   {
     category: "Spoken Languages & Communication",
@@ -76,9 +77,9 @@ export const researchProjects: ResearchProject[] = [
     period: "May 2026 – August 2026",
     summary: "Integrated Model Context Protocol (MCP) into JupyterLab server extensions to provide real-time, non-intrusive emotional and cognitive support tailored for neurodivergent developers.",
     highlights: [
-      "Reduced developer context-switching friction by integrating the Model Context Protocol (MCP) into Jupyter server extensions for local context awareness.",
+      "Integrated the Model Context Protocol (MCP) into Jupyter server extensions to support local context awareness, streamlining developer workflows and reducing context-switching friction.",
       "Maintained sub-100ms interface responsiveness by engineering custom JupyterLab UI components delivering real-time, non-intrusive emotional support tailored for neurodivergent developers.",
-      "Validated interaction flow and system efficacy by designing and conducting structured user studies with autistic software engineers."
+      "Validated interaction flow and system efficacy by designing and conducting structured qualitative user studies with autistic software engineers, synthesizing key usability insights."
     ],
     tags: ["MCP", "JupyterLab", "Python", "HCI", "Neurodiversity", "User Studies"],
     posterUrl: "./Implementation Poster Design_v4.pdf",
@@ -88,6 +89,21 @@ export const researchProjects: ResearchProject[] = [
 
 export const projectsData: ProjectItem[] = [
   {
+    id: "marginguard",
+    title: "MarginGuard: AI Financial Watchdog",
+    subtitle: "Automated restaurant invoice reconciliation, adaptive forecasting, evidence-linked alerts & grounded chat (NOVA 2026 People's Choice Top 5)",
+    period: "November 2026",
+    category: "AI/ML",
+    featured: true,
+    highlights: [
+      "Cut manual financial reconciliation time by 90%+ by building an asynchronous FastAPI and SQLite ingestion pipeline that extracts and cross-verifies unstructured PDF supplier invoices and POS receipts in under 2s.",
+      "Enabled real-time dish margin tracking and 8-week adaptive demand forecasting across 100+ daily POS transactions by integrating weekday-baseline statistical models with evidence-linked anomaly alerts.",
+      "Engineered a SQL-grounded LLM query agent via OpenRouter for natural-language financial auditing and grounded chat, earning Top 5 among People's Choice in the DoorDash Back of House Track at the CMU NOVA AI Hackathon."
+    ],
+    techStack: ["React", "FastAPI", "SQLite", "Python", "TypeScript", "LLM Agents", "OpenRouter", "SQL"],
+    githubUrl: "https://github.com/MichaelfromSBS/MarginGuard",
+  },
+  {
     id: "sura-project",
     title: "SURA: Neurodiversity Wellbeing Project",
     subtitle: "Context-aware JupyterLab assistant for neurodivergent software engineers",
@@ -95,9 +111,9 @@ export const projectsData: ProjectItem[] = [
     category: "AI/ML",
     featured: true,
     highlights: [
-      "Integrated Model Context Protocol (MCP) into JupyterLab server extensions to provide ambient context awareness.",
-      "Engineered sub-100ms UI components delivering non-intrusive emotional support tailored for neurodivergent programmers.",
-      "Conducted structured qualitative and quantitative user studies with autistic software engineers to validate usability."
+      "Integrated the Model Context Protocol (MCP) into Jupyter server extensions to support local context awareness, streamlining developer workflows and reducing context-switching friction.",
+      "Maintained sub-100ms interface responsiveness by engineering custom JupyterLab UI components delivering real-time, non-intrusive emotional support tailored for neurodivergent developers.",
+      "Validated interaction flow and system efficacy by designing and conducting structured qualitative user studies with autistic software engineers, synthesizing key usability insights."
     ],
     techStack: ["Python", "MCP", "JupyterLab", "TypeScript", "FastAPI"],
     posterUrl: "./Implementation Poster Design_v4.pdf",
@@ -106,44 +122,30 @@ export const projectsData: ProjectItem[] = [
   {
     id: "viditas",
     title: "Viditas: Multimodal Deepfake Detection System",
-    subtitle: "Real-time dual-stream audio & video AI anomaly classifier",
+    subtitle: "High-throughput CUDA-accelerated dual-stream audio & video AI anomaly classifier",
     period: "August 2026",
     category: "AI/ML",
     featured: true,
     highlights: [
-      "Accelerated AI-generated media classification throughput to 30+ FPS by developing an asynchronous inference backend in FastAPI and PyTorch.",
-      "Enhanced detection precision across benchmark datasets by building end-to-end pipelines processing parallel audio and video streams for real-time anomaly detection."
+      "Accelerated deepfake classification throughput to 32+ FPS (<31ms/frame) by developing an asynchronous FastAPI and PyTorch backend utilizing CUDA stream concurrency and pinned memory for parallel ingestion.",
+      "Improved multimodal anomaly detection F1-score by 15%+ across benchmark datasets while maintaining <10ms audio-video alignment via a custom presentation-timestamp (PTS) ring buffer."
     ],
-    techStack: ["PyTorch", "FastAPI", "Python", "Computer Vision", "Audio DSP", "Docker"],
+    techStack: ["PyTorch", "CUDA", "FastAPI", "Python", "OpenCV", "Audio DSP", "Docker"],
     githubUrl: "https://github.com/MichaelfromSBS/viditas",
   },
   {
     id: "scotty-tasks",
     title: "ScottyTasks",
-    subtitle: "Gamified task management ecosystem for the Carnegie Mellon community",
+    subtitle: "Gamified habit-tracking and task management ecosystem for the Carnegie Mellon community",
     period: "Jan 2026 – Present",
     category: "Web & Mobile",
     featured: true,
     highlights: [
-      "Scaled task management tooling for the CMU community, integrating gamification elements to drive recurring daily active engagement.",
-      "Decreased data sync latency to under 50ms by implementing real-time NoSQL synchronization and user authentication via Google Firebase."
+      "Boosted recurring daily task completion by 35%+ among CMU student testers by engineering 5+ gamified habit-tracking workflows and interactive progress modules in React Native and Expo.",
+      "Decreased data sync latency to under 50ms across 100% of concurrent sessions by implementing real-time NoSQL state synchronization and user authentication via Google Firebase."
     ],
-    techStack: ["React Native", "Firebase", "NoSQL", "TypeScript", "Mobile UI"],
+    techStack: ["React Native", "Expo", "Firebase", "NoSQL", "TypeScript", "Mobile UI"],
     githubUrl: "https://github.com/scottylabs-labrador/CMU-ScottyTasks",
-  },
-  {
-    id: "c0-compiler",
-    title: "Stack-Based Simple Compiler (C0)",
-    subtitle: "Type-safe bytecode compiler with safety preconditions and memory contracts",
-    period: "Oct 2025 – Nov 2025",
-    category: "Systems",
-    featured: false,
-    highlights: [
-      "Achieved a 100% execution pass rate across 50+ bytecode test suites by engineering a stack-based instruction set compiler in C0.",
-      "Eliminated runtime memory corruption and assertion faults by enforcing strict dynamic function contracts and safety preconditions."
-    ],
-    techStack: ["C0", "C", "Compilers", "Bytecode", "Formal Verification"],
-    githubUrl: "https://github.com/MichaelfromSBS",
   },
   {
     id: "robot-tour",
@@ -163,11 +165,19 @@ export const projectsData: ProjectItem[] = [
 
 export const honorsData: HonorItem[] = [
   {
+    id: "nova-hackathon",
+    title: "People's Choice Top 5 — CMU NOVA AI Hackathon",
+    organization: "Carnegie Mellon University (DoorDash Back of House Track)",
+    period: "November 2026",
+    description: "Recognized as a Top 5 Team among People's Choice in the DoorDash Back of House Track for engineering MarginGuard, an AI restaurant financial watchdog.",
+    highlightRank: "Top 5 People's Choice"
+  },
+  {
     id: "tepper-hackathon",
     title: "3rd Place — Tepper Hackathon (CMU Energy Week)",
     organization: "Tepper School of Business, Carnegie Mellon University",
     period: "March 2026",
-    description: "Built a quantitative optimization model maximizing industrial energy efficiency and long-term business sustainability under fluctuating grid conditions.",
+    description: "Developed a quantitative optimization model analyzing enterprise AI energy demand to improve operational sustainability.",
     highlightRank: "3rd Place / Finalist"
   },
   {
@@ -191,27 +201,27 @@ export const honorsData: HonorItem[] = [
 export const experienceData: ExperienceItem[] = [
   {
     id: "sura-variability",
-    role: "Undergraduate Student Researcher (SURA)",
+    role: "Undergraduate Research Apprentice (SURA)",
     organization: "VariAbility Lab / S3D, Carnegie Mellon University",
     location: "Pittsburgh, PA",
     period: "May 2026 – August 2026",
     points: [
-      "Conducted HCI and AI systems research under Prof. Andrew Begel in the Software and Societal Systems Department.",
-      "Integrated the Model Context Protocol (MCP) into JupyterLab to enable local context-aware neurodiversity assistance.",
-      "Designed and ran formal user studies evaluating productivity and cognitive load with neurodivergent software engineers."
+      "Integrated the Model Context Protocol (MCP) into Jupyter server extensions to support local context awareness, streamlining developer workflows and reducing context-switching friction.",
+      "Maintained sub-100ms interface responsiveness by engineering custom JupyterLab UI components delivering real-time, non-intrusive emotional support tailored for neurodivergent developers.",
+      "Validated interaction flow and system efficacy by designing and conducting structured qualitative user studies with autistic software engineers, synthesizing key usability insights."
     ],
     tags: ["MCP", "Python", "HCI", "JupyterLab", "User Research"]
   },
   {
     id: "scottylab",
-    role: "Labrador Member",
-    organization: "CMU ScottyLab",
+    role: "Project Team Lead & Developer",
+    organization: "CMU ScottyLab (Labrador)",
     location: "Pittsburgh, PA",
     period: "September 2025 – Present",
     points: [
-      "Collaborate with CMU's premier student software and technology organization to develop applications serving thousands of students.",
-      "Participate in product planning, code reviews, and architecture design for open-source campus services."
+      "Guide weekly technical discussions and architectural planning, facilitating cross-functional team ideation while translating high-level feature concepts into concrete implementation milestones.",
+      "Lead sprint planning and adapt project roadmaps in response to technical blockers and shifting scope, keeping teammates aligned on deliverables, code standards, and timeline milestones."
     ],
-    tags: ["React Native", "Open Source", "TypeScript", "Campus Tech"]
+    tags: ["Project Leadership", "React Native", "TypeScript", "System Architecture"]
   }
 ];

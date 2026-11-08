@@ -150,7 +150,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       </div>
 
       {/* Distinction & Competitive Highlights Bar */}
-      <div className="pt-8 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="pt-8 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {honorsData.map((honor) => (
           <div
             key={honor.id}

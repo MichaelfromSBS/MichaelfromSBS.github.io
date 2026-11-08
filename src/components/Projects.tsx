@@ -9,7 +9,7 @@ interface ProjectsProps {
 export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const categories = ['All', 'AI/ML', 'Systems', 'Web & Mobile', 'Robotics'];
+  const categories = ['All', ...Array.from(new Set(projectsData.map((p) => p.category)))];
 
   const filteredProjects = selectedCategory === 'All'
     ? projectsData

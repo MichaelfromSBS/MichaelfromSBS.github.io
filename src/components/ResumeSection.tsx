@@ -82,16 +82,8 @@ export const ResumeSection: React.FC = () => {
                     Bachelor of Science in Computer Science — Concentration in Machine Learning
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    <span className="font-semibold text-slate-700 dark:text-slate-300">Selected Coursework:</span> Mathematical Foundations for CS (15-151), Great Theoretical Ideas in CS (15-251), Functional Programming (15-150), Matrices and Linear Transformations (21-241), Concepts of Robotics (16-180), Imperative Computation (15-122), Probability Theory (36-225).
+                    <span className="font-semibold text-slate-700 dark:text-slate-300">Selected Coursework:</span> Computer Systems (15-213), Great Theoretical Ideas in CS (15-251), Functional Programming (15-150), Imperative Computation (15-122), Mathematical Foundations for CS (15-151), Matrices & Linear Transformations (21-241), Probability Theory (36-225), Concepts of Robotics (16-180).
                   </p>
-                </div>
-
-                <div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-sm text-slate-900 dark:text-white">The Stony Brook School</span>
-                    <span className="text-xs font-mono text-slate-500">Stony Brook, NY • June 2025</span>
-                  </div>
-                  <div className="text-xs text-slate-700 dark:text-slate-300">High School Diploma</div>
                 </div>
               </div>
             </div>
@@ -102,28 +94,46 @@ export const ResumeSection: React.FC = () => {
                 Technical Skills
               </h4>
               <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                <p><span className="font-semibold text-slate-900 dark:text-white">Programming Languages:</span> Python, C, C++, Java, SML, C0, JavaScript, Node.js, LaTeX.</p>
-                <p><span className="font-semibold text-slate-900 dark:text-white">Technologies:</span> PyTorch, FastAPI, React Native, Firebase, TensorFlow, Scikit-Learn, Pandas, NumPy, Git, Docker, Jupyter, MCP, RAG.</p>
+                <p><span className="font-semibold text-slate-900 dark:text-white">Languages:</span> Python, C, C++, TypeScript, JavaScript, SQL, Java, SML, Bash, x86-64 Assembly.</p>
+                <p><span className="font-semibold text-slate-900 dark:text-white">ML & AI:</span> PyTorch, TensorFlow, CUDA, Scikit-Learn, NumPy, Pandas, OpenCV, RAG, LLM Agents, MCP.</p>
+                <p><span className="font-semibold text-slate-900 dark:text-white">Systems & Backend:</span> FastAPI, React, React Native, Node.js, SQLite, Firebase, Docker, Git, Linux, GDB.</p>
                 <p><span className="font-semibold text-slate-900 dark:text-white">Spoken Languages:</span> Native fluency in English and Mandarin Chinese.</p>
               </div>
             </div>
 
-            {/* Projects & Research */}
+            {/* Research Experience */}
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 mb-3 border-b border-slate-200 dark:border-slate-800 pb-1">
-                Projects & Research
+                Research Experience
+              </h4>
+              <div>
+                <div className="flex justify-between items-baseline">
+                  <span className="font-bold text-sm text-slate-900 dark:text-white">Carnegie Mellon University, VariAbility Lab</span>
+                  <span className="text-xs font-mono text-slate-500">May 2026 – August 2026</span>
+                </div>
+                <div className="text-xs text-slate-500 italic mb-1">Undergraduate Research Apprentice (SURA) — Advised by Prof. Andrew Begel</div>
+                <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                  <li>Integrated the Model Context Protocol (MCP) into Jupyter server extensions to support local context awareness, streamlining developer workflows and reducing context-switching friction.</li>
+                  <li>Maintained sub-100ms interface responsiveness by engineering custom JupyterLab UI components delivering real-time, non-intrusive emotional support tailored for neurodivergent developers.</li>
+                  <li>Validated interaction flow and system efficacy by designing and conducting structured qualitative user studies with autistic software engineers, synthesizing key usability insights.</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Projects */}
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 mb-3 border-b border-slate-200 dark:border-slate-800 pb-1">
+                Projects
               </h4>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-sm text-slate-900 dark:text-white">SURA: Neurodiversity Wellbeing Project</span>
-                    <span className="text-xs font-mono text-slate-500">May 2026 – Aug 2026</span>
+                    <span className="font-bold text-sm text-slate-900 dark:text-white">MarginGuard: AI Financial Watchdog (React, FastAPI, SQLite)</span>
+                    <span className="text-xs font-mono text-slate-500">November 2026</span>
                   </div>
-                  <div className="text-xs text-slate-500 mb-1">Advised by Prof. Andrew Begel, VariAbility Lab / S3D</div>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
-                    <li>Reduced developer context-switching friction by integrating the Model Context Protocol (MCP) into Jupyter server extensions for local context awareness.</li>
-                    <li>Maintained sub-100ms interface responsiveness by engineering custom JupyterLab UI components delivering real-time, non-intrusive emotional support tailored for neurodivergent developers.</li>
-                    <li>Validated interaction flow and system efficacy by designing and conducting structured user studies with autistic software engineers.</li>
+                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300 mt-1">
+                    <li>Cut manual financial reconciliation time by 90%+ by building an asynchronous FastAPI and SQLite ingestion pipeline that extracts and cross-verifies unstructured PDF supplier invoices and POS receipts in under 2s.</li>
+                    <li>Enabled real-time dish margin tracking and 8-week demand forecasting across 100+ daily POS transactions by integrating weekday-baseline statistical models with a SQL-grounded LLM query agent via OpenRouter.</li>
                   </ul>
                 </div>
 
@@ -132,46 +142,46 @@ export const ResumeSection: React.FC = () => {
                     <span className="font-bold text-sm text-slate-900 dark:text-white">Viditas: Multimodal Deepfake Detection System</span>
                     <span className="text-xs font-mono text-slate-500">August 2026</span>
                   </div>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
-                    <li>Accelerated AI-generated media classification throughput to 30+ FPS by developing an asynchronous inference backend in FastAPI and PyTorch.</li>
-                    <li>Enhanced detection precision across benchmark datasets by building end-to-end pipelines processing parallel audio and video streams for real-time anomaly detection.</li>
+                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300 mt-1">
+                    <li>Accelerated deepfake classification throughput to 32+ FPS (&lt;31ms/frame) by developing an asynchronous FastAPI and PyTorch backend utilizing CUDA stream concurrency and pinned memory for parallel ingestion.</li>
+                    <li>Improved multimodal anomaly detection F1-score by 15%+ across benchmark datasets while maintaining &lt;10ms audio-video alignment via a custom presentation-timestamp (PTS) ring buffer.</li>
                   </ul>
                 </div>
 
                 <div>
                   <div className="flex justify-between items-baseline">
                     <span className="font-bold text-sm text-slate-900 dark:text-white">ScottyTasks (React Native & Firebase)</span>
-                    <span className="text-xs font-mono text-slate-500">Jan 2026 – Present</span>
+                    <span className="text-xs font-mono text-slate-500">January 2026 – Present</span>
                   </div>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
-                    <li>Scaled task management tooling for the CMU community, integrating gamification elements to drive recurring daily active engagement.</li>
-                    <li>Decreased data sync latency to under 50ms by implementing real-time NoSQL synchronization and user authentication via Google Firebase.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-sm text-slate-900 dark:text-white">Stack-Based Simple Compiler (C0)</span>
-                    <span className="text-xs font-mono text-slate-500">Oct 2025 – Nov 2025</span>
-                  </div>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
-                    <li>Achieved a 100% execution pass rate across 50+ bytecode test suites by engineering a stack-based instruction set compiler in C0.</li>
-                    <li>Eliminated runtime memory corruption and assertion faults by enforcing strict dynamic function contracts and safety preconditions.</li>
+                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300 mt-1">
+                    <li>Boosted recurring daily task completion by 35%+ among CMU student testers by engineering 5+ gamified habit-tracking workflows and interactive progress modules in React Native and Expo.</li>
+                    <li>Decreased data sync latency to under 50ms across 100% of concurrent sessions by implementing real-time NoSQL state synchronization and user authentication via Google Firebase.</li>
                   </ul>
                 </div>
               </div>
             </div>
 
-            {/* Honors & Leadership */}
+            {/* Leadership & Honors */}
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 mb-3 border-b border-slate-200 dark:border-slate-800 pb-1">
-                Honors & Leadership
+                Leadership & Honors
               </h4>
+              <div className="mb-3">
+                <div className="flex justify-between items-baseline">
+                  <span className="font-bold text-sm text-slate-900 dark:text-white">CMU ScottyLab (Labrador)</span>
+                  <span className="text-xs font-mono text-slate-500">September 2025 – Present</span>
+                </div>
+                <div className="text-xs text-slate-500 italic mb-1">Project Team Lead & Developer</div>
+                <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                  <li>Guide weekly technical discussions and architectural planning, facilitating cross-functional team ideation while translating high-level feature concepts into concrete implementation milestones.</li>
+                  <li>Lead sprint planning and adapt project roadmaps in response to technical blockers and shifting scope, keeping teammates aligned on deliverables, code standards, and timeline milestones.</li>
+                </ul>
+              </div>
               <ul className="list-disc list-inside space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                <li><span className="font-semibold text-slate-900 dark:text-white">Tepper Hackathon (CMU Energy Week):</span> 3rd Place (March 2026) — Built quantitative model optimizing energy efficiency and business sustainability.</li>
+                <li><span className="font-semibold text-slate-900 dark:text-white">CMU NOVA AI Hackathon:</span> Top 5 Team among People’s Choice (November 2026) – DoorDash Back of House Track (MarginGuard).</li>
+                <li><span className="font-semibold text-slate-900 dark:text-white">Tepper Hackathon (CMU Energy Week):</span> 3rd Place (March 2026) – Developed a quantitative optimization model analyzing enterprise AI energy demand to improve operational sustainability.</li>
                 <li><span className="font-semibold text-slate-900 dark:text-white">USACO Platinum Division (2024):</span> Perfect score in Gold Division (Top ~300 nationally).</li>
                 <li><span className="font-semibold text-slate-900 dark:text-white">USAMO Qualifier (2024):</span> AMC 12 top 1% nationwide; scored 11/15 on AIME.</li>
-                <li><span className="font-semibold text-slate-900 dark:text-white">CMU ScottyLab Labrador Member:</span> September 2025 – Present.</li>
               </ul>
             </div>
           </div>
