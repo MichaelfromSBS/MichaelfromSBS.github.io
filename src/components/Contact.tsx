@@ -17,9 +17,6 @@ export const Contact: React.FC = () => {
   const getFormattedSubject = () =>
     `Portfolio Inquiry from ${formState.name || 'Visitor'}`;
 
-  const getFormattedBody = () =>
-    `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`;
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitStatus('sending');
@@ -51,28 +48,18 @@ export const Contact: React.FC = () => {
   };
 
   const openInGmail = () => {
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-      personalInfo.email
-    )}&su=${encodeURIComponent(getFormattedSubject())}&body=${encodeURIComponent(
-      getFormattedBody()
-    )}`;
-    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  const openInOutlook = () => {
-    const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(
-      personalInfo.email
-    )}&subject=${encodeURIComponent(getFormattedSubject())}&body=${encodeURIComponent(
-      getFormattedBody()
-    )}`;
-    window.open(outlookUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  const openMailto = () => {
-    const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
-      getFormattedSubject()
-    )}&body=${encodeURIComponent(getFormattedBody())}`;
-    window.location.href = mailtoUrl;
+    const params = new URLSearchParams({
+      view: 'cm',
+      fs: '1',
+      to: personalInfo.email,
+    });
+    if (formState.name.trim()) {
+      params.set('su', `Hello from ${formState.name.trim()}`);
+    }
+    if (formState.message.trim()) {
+      params.set('body', formState.message.trim());
+    }
+    window.open(`https://mail.google.com/mail/?${params.toString()}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -181,7 +168,7 @@ export const Contact: React.FC = () => {
               Send a Direct Message
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-6">
-              Send a message directly from the browser, or launch a pre-filled draft in Gmail or Outlook Web.
+              Submit a message directly from the website, or open a clean compose window in Gmail.
             </p>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -251,7 +238,7 @@ export const Contact: React.FC = () => {
                 <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/70 flex items-start gap-2.5 text-xs text-amber-800 dark:text-amber-200">
                   <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                   <div>
-                    Direct send encountered a network blocker. Please use <button type="button" onClick={openInGmail} className="underline font-semibold cursor-pointer">Open in Gmail</button> or <button type="button" onClick={openInOutlook} className="underline font-semibold cursor-pointer">Open in Outlook</button> below!
+                    Direct send encountered a network blocker. Please use <button type="button" onClick={openInGmail} className="underline font-semibold cursor-pointer">Compose in Gmail</button> below!
                   </div>
                 </div>
               )}
@@ -274,36 +261,18 @@ export const Contact: React.FC = () => {
                 )}
               </button>
 
-              {/* Webmail Quick Launch Fallback */}
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-700/60 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
-                <span>Or open pre-filled draft in webmail:</span>
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={openInGmail}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700/80 hover:bg-red-50 dark:hover:bg-red-950/50 text-slate-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 font-semibold transition-colors cursor-pointer"
-                  >
-                    <Mail className="w-3.5 h-3.5" />
-                    <span>Gmail Web</span>
-                    <ExternalLink className="w-3 h-3 opacity-70" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={openInOutlook}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700/80 hover:bg-blue-50 dark:hover:bg-blue-950/50 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors cursor-pointer"
-                  >
-                    <Mail className="w-3.5 h-3.5" />
-                    <span>Outlook Web</span>
-                    <ExternalLink className="w-3 h-3 opacity-70" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={openMailto}
-                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium transition-colors cursor-pointer"
-                  >
-                    <span>Mail App</span>
-                  </button>
-                </div>
+              {/* Clean Gmail Compose Option */}
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                <span>Prefer sending from your own email account?</span>
+                <button
+                  type="button"
+                  onClick={openInGmail}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700/80 hover:bg-red-50 dark:hover:bg-red-950/50 text-slate-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 font-semibold transition-colors cursor-pointer"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Compose in Gmail</span>
+                  <ExternalLink className="w-3 h-3 opacity-70" />
+                </button>
               </div>
             </form>
           </div>
